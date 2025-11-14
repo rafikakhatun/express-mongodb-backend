@@ -1,6 +1,7 @@
 //const User = require('../models/user.model');
 const bcrypt = require("bcryptjs");
 const User = require("../models/User.model");
+const sendEmail = require("../service/SendEmail");
 
 
 
@@ -43,8 +44,11 @@ const createUser = async (req, res) => {
             
             `
 
+            sendEmail(newUser.email,subject,textBody,htmlBody)
+
             
-        } catch (error) {
+        } catch (Emailerror) {
+            console.error('Email sending after user creations:',Emailerror.message)
             
         }
 
