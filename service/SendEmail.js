@@ -11,8 +11,21 @@ const sendEmail = async(to,subject,text,html) =>{
 
         });
 
-        
+        const mailOptions ={
+            from:"rafikakhatun607@gmail.com",
+            to:to,
+            subject:subject,
+            text:text,
+            html:html,
+        }
+
+     const info =  await transporter.sendMail(mailOptions);
+     console.log("email send successfully:",info)
+     return true;
+
     } catch (error) {
+
+        console.error("Error sending email",message)
         
     }
 }
