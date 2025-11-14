@@ -29,6 +29,25 @@ const createUser = async (req, res) => {
             gender
         });
 
+        // email test
+
+        try {
+            const subject = "Wellcome to our App";
+            const textBody = `Hello ${name} \n\nWellcome! Your account hasbeen created successfully. \n\n thanks \n\n the team`;
+            const htmlBody =`
+            <h1>Hello ${name}</h1>
+            <P>Wellcome ! Your account hasbeen created successfully.</P>
+            <br>
+            <P>Thanks</p>
+            <P>The Team</p>
+            
+            `
+
+            
+        } catch (error) {
+            
+        }
+
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).json({ message: 'Error creating user', error: error.message });
