@@ -1,4 +1,5 @@
 //const User = require('../models/user.model');
+import bcrypt from "bcryptjs";
 
 const User = require("../models/User.model");
 
@@ -7,21 +8,24 @@ const User = require("../models/User.model");
 // Create a new user -> POST /api/users
 const createUser = async (req, res) => {
 
-    const {name,email,age,gender,password} = req.body;
+    const { name, email, age, gender, password } = req.body;
 
 
     try {
 
-       const userExist =  await User.findOne({email});
+        const userExist = await User.findOne({ email });
 
-       if(userExist){
-        return res.status(400).json({message:'user with this email already exisates'})
-       }
+        if (userExist) {
+            return res.status(400).json({ message: 'user with this email already exisates' })
+        }
+        //// Store hash in your password DB
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
 
         const newUser = await User.create({
             name,
             email,
-            password,
+            password:hashPassword,
             age,
             gender
         });
