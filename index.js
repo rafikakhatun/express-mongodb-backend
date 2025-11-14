@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/user.route');
@@ -6,13 +7,14 @@ const userRoutes = require('./routes/user.route');
 // Load .env file
 dotenv.config();
 
-// Connect to the database
+// Connect to the database 
 connectDB();
 
 const app = express();
 
 // Body parser middleware ( accept JSON data)
 app.use(express.json());
+app.use(cors())
 
 // API Routes
 app.use('/api/users', userRoutes);

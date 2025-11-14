@@ -18,9 +18,29 @@ const userSchema = new mongoose.Schema(
             type: Number,
             required: false,
         },
+
+        gender: {
+            type: String,
+            required: false,
+            required: [true, 'please add an email'],
+            enum: ['male', 'female', 'other'],
+            trim: true,
+        },
+
+        password: {
+            type: String,
+            required: false,
+            required: [true, 'please add your password'],
+            minlenght: [6, 'password must be 6 character']
+
+
+        },
     },
+
+
+
     {
-        timestamps: true, 
+        timestamps: true,
     }
 );
 
