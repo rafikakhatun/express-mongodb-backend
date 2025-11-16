@@ -7,10 +7,12 @@ const sendEmail = require("../service/SendEmail");
 
 // Create a new user -> POST /api/users
 const createUser = async (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
 
     const { name, email, age, gender, password } = req.body;
 
-
+// email
     try {
 
         const userExist = await User.findOne({ email });
@@ -27,7 +29,8 @@ const createUser = async (req, res) => {
             email,
             password: hashPassword,
             age,
-            gender
+            gender,
+            profileImage:imageUrl,
         });
 
         // email test
@@ -63,6 +66,12 @@ const createUser = async (req, res) => {
         res.status(500).json({ message: 'Error creating user', error: error.message });
     }
 };
+
+
+// image 
+const imageUrl = req.file? req.file.path : 'undifined';
+
+
 
 // Get all users -> GET /api/users
 const getAllUsers = async (req, res) => {
