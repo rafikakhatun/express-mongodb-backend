@@ -7,11 +7,12 @@ const {
     updateUser,
     deleteUser,
 } = require('../controllers/user.controller');
+const upload = require('../config/cloudinary');
 
 // @route GET /api/users/all
 router.get('/all', getAllUsers);
-// @route POST /api/users/create
-router.post('/create', createUser);
+// @route POST /api/users/create(
+router.post('/create',upload.single('profileImage'), createUser);
 
 // @route GET /api/users/details/:id
 router.put('/update/:id', updateUser);
