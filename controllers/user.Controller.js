@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
         const newUser = await User.create({
             name,
             email,
-            password:hashPassword,
+            password: hashPassword,
             age,
             gender
         });
@@ -34,22 +34,28 @@ const createUser = async (req, res) => {
 
         try {
             const subject = "Wellcome to our App";
-            const textBody = `Hello ${name} \n\nWellcome! Your account hasbeen created successfully. \n\n thanks \n\n the team`;
-            const htmlBody =`
-            <h1>Hello ${name}</h1>
-            <P>Wellcome ! Your account hasbeen created successfully.</P>
+            const textBody = `Hello ${name} \n\nWelcome to our platform! ! Your account has been created successfully and you can now log in to start using our services..\n\nIf you need any support, feel free to reach out to us. \n\n thank You \n\n The Team`;
+            const htmlBody = `
+            <h1>Welcome, ${name}</h1>
+            <P style="font-size:16px; color:#333;">
+            We’re happy to let you know that your account has been created successfully.
+            </P>
+            <p>
+                    You can now log in and start exploring our services. If you require any assistance, feel free to contact our support team anytime.
+                </p>
+
             <br>
             <P>Thanks</p>
             <P>The Team</p>
             
             `
 
-            sendEmail(newUser.email,subject,textBody,htmlBody)
+            sendEmail(newUser.email, subject, textBody, htmlBody)
 
-            
+
         } catch (Emailerror) {
-            console.error('Email sending after user creations:',Emailerror.message)
-            
+            console.error('Email sending after user creations:', Emailerror.message)
+
         }
 
         res.status(201).json(newUser);
