@@ -12,7 +12,7 @@ const createUser = async (req, res) => {
 
     const { name, email, age, gender, password } = req.body;
 
-// email
+    // email
     try {
 
         const userExist = await User.findOne({ email });
@@ -24,14 +24,21 @@ const createUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
 
+        // image 
+        const imageUrl = req.file ? req.file.path : 'undifined';
+
+
         const newUser = await User.create({
             name,
             email,
             password: hashPassword,
             age,
             gender,
-            profileImage:imageUrl,
+            profileImage: imageUrl,
         });
+
+        
+
 
         // email test
 
@@ -67,9 +74,6 @@ const createUser = async (req, res) => {
     }
 };
 
-
-// image 
-const imageUrl = req.file? req.file.path : 'undifined';
 
 
 
