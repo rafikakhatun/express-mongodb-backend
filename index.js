@@ -21,7 +21,7 @@ app.use(cors())
 app.use('/api/users', userRoutes);
 
 
-//http://localhost:6000/api/users/create
+//http://localhost:5001/api/users/create
 
 const PORT = process.env.PORT || 5001;
 

@@ -18,7 +18,7 @@ router.post('/create',upload.single('profileImage'), createUser);
 router.put('/update/:id', updateUser);
 
 // @route DELETE /api/users/delete/:id
-router.delete('/delete/:id', deleteUser);
+
 
 
 module.exports = router;
