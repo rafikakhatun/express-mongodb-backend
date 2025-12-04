@@ -108,7 +108,7 @@ const deleteUser = async (req, res) => {
 }
 
 // active and inactive user 
-
+ 
 const UpdateUserStatus = async(req,res)=>{
     const {status} = req.body;
     const allowedStatus = ['active','inactive','blocked']
@@ -125,6 +125,7 @@ const UpdateUserStatus = async(req,res)=>{
 
         
     } catch (error) {
+        res.status(500).json({message:'Error Updating user Status',error:error.message});
         
     }
 
