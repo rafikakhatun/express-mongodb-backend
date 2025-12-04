@@ -109,8 +109,14 @@ const deleteUser = async (req, res) => {
 
 // active and inactive user 
 
-const UpdateUserStatus = ()=>{
-    
+const UpdateUserStatus = async(req,res)=>{
+    const {status} = req.body;
+    const allowedStatus = ['active','inactive','blocked']
+    if(status || allowedStatus.includes(status)){
+        return res.status(400).json({message:'invalid or missing status'})
+    }
+
+
 
 }
 
