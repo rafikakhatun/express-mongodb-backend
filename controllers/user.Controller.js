@@ -107,7 +107,14 @@ const deleteUser = async (req, res) => {
 
 }
 
+// active and inactive user 
 
-module.exports = { createUser, getAllUsers,deleteUser };
+const UpdateUserStatus = ()=>{
+    
+
+}
+
+
+module.exports = { createUser, getAllUsers,deleteUser,UpdateUserStatus };
 
 
