@@ -18,6 +18,13 @@ const userSchema = new mongoose.Schema(
             type: Number,
             required: false,
         },
+        status:{
+            type:String,
+            require:true,
+            enum:['active','inactive','blocked'],
+            default:'active',
+
+        },
 
         gender: {
             type: String,
