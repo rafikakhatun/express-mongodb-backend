@@ -115,6 +115,18 @@ const UpdateUserStatus = async(req,res)=>{
     if(status || allowedStatus.includes(status)){
         return res.status(400).json({message:'invalid or missing status'})
     }
+    try {
+    const updatedUser =  await User.findByIdAndUpdate(req.params.id,{status:status},{runValidators:true},).select('password');
+    if(!updatedUser){
+        return res.status(400).json({message:'user not found'});
+    }
+
+    res.status(200).json({message:`User Status updated to ${status}`,user:updatedUser});
+
+        
+    } catch (error) {
+        
+    }
 
 
 
