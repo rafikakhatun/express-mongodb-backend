@@ -1,4 +1,6 @@
 //const User = require('../models/user.model');
+
+const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const User = require("../models/User.model");
 const sendEmail = require("../service/SendEmail");
