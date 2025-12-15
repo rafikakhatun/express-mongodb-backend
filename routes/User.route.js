@@ -6,6 +6,7 @@ const {
     deleteUser,
     UpdateUserStatus,
     loginUser,
+    verifyOTP,
 } = require('../controllers/user.controller');
 const upload = require('../config/cloudinary');
 
@@ -19,7 +20,9 @@ router.delete('/:id',deleteUser)
 // route active and inactive
 router.patch('/:id/status',UpdateUserStatus,) //http://localhost:5001/api/users/id/status
 
-router.post('/login', loginUser);       // ধাপ ১: ইমেইল পাসওয়ার্ড দিয়ে OTP রিকোয়েস্ট
+router.post('/login', loginUser); // ধাপ ১: ইমেইল পাসওয়ার্ড দিয়ে OTP রিকোয়েস্ট
+router.post('/login/verify', verifyOTP); // ধাপ ২: OTP দিয়ে টোকেন রিসিভ
+
 
 
 
