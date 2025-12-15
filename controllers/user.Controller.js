@@ -47,6 +47,50 @@ const sendEmail = require("../service/SendEmail");
     }
 };
 
+// verify otp
+
+const verifyOTP = async (req, res) => {
+    const { email, otp } = req.body;
+
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+
+        // OTP এবং মেয়াদ চেক করা
+        if (user.otp !== otp || user.otpExpires < Date.now()) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+
+
+        // সফল হলে OTP মুছে ফেলা
+        user.otp = undefined;
+        user.otpExpires = undefined;
+        await user.save();
+
+
+        // JWT টোকেন তৈরি (Secret Key .env ফাইলে থাকা উচিত)
+        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET || 'secret123', {
+            expiresIn: '1d', // ১ দিন মেয়াদ
+        });
+
+
+        res.status(200).json({
+            message: 'Login successful',
+            token,
+            user: { id: user._id, name: user.name, email: user.email }
+        });
+
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+
 
 
 
@@ -179,6 +223,6 @@ const UpdateUserStatus = async(req,res)=>{
 }
 
 
-module.exports = { createUser, getAllUsers,deleteUser,UpdateUserStatus,loginUser };
+module.exports = { createUser, getAllUsers,deleteUser,UpdateUserStatus,loginUser,verifyOTP };
 
 
