@@ -4,6 +4,51 @@ const User = require("../models/User.model");
 const sendEmail = require("../service/SendEmail");
 
 
+// jwt login
+ const loginUser =  async (req, res) => {
+    const { email, password } = req.body;
+
+
+    try {
+        // ইউজার আছে কিনা চেক করা
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+
+        // পাসওয়ার্ড ঠিক আছে কিনা চেক করা
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+
+
+        // ৬ ডিজিটের OTP তৈরি করা
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+       
+        // ডাটাবেসে OTP সেভ করা (মেয়াদ ১০ মিনিট)
+        user.otp = otp;
+        user.otpExpires = Date.now() + 10 * 60 * 1000;
+        await user.save();
+
+
+        // ইমেইলে OTP পাঠানো
+        const subject = 'Your Login OTP';
+        const text = `Your OTP is ${otp}. It is valid for 10 minutes.`;
+        await sendEmail(user.email, subject, text, `<p>Your OTP is <b>${otp}</b></p>`);
+
+
+        res.status(200).json({ message: 'OTP sent to your email' });
+
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+
+
 
 // Create a new user -> POST /api/users
 const createUser = async (req, res) => {
@@ -134,6 +179,6 @@ const UpdateUserStatus = async(req,res)=>{
 }
 
 
-module.exports = { createUser, getAllUsers,deleteUser,UpdateUserStatus };
+module.exports = { createUser, getAllUsers,deleteUser,UpdateUserStatus,loginUser };
 
 
